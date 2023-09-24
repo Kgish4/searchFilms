@@ -29,16 +29,10 @@ export function writeUserData(
 
   const updates: FirebaseUser = {} as FirebaseUser;
 
-  updates[`username`] = name;
-  updates[`email`] = email;
-  updates[`profile_picture`] = imageUrl;
+  updates["username"] = name;
+  updates["email"] = email;
+  updates["profile_picture"] = imageUrl;
   update(reference, updates);
-
-  //   set(reference, {
-  //     username: name,
-  //     email: email,
-  //     profile_picture: imageUrl,
-  //   });
 }
 
 export function writeFilmData(userId: string, film: FilmDto) {
