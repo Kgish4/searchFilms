@@ -1,22 +1,13 @@
-import {
-  onValue,
-  get,
-  getDatabase,
-  push,
-  ref,
-  set,
-  remove,
-  update,
-} from "firebase/database";
+import { get, push, ref, set, remove, update } from "firebase/database";
 import FilmDto from "../dto/filmdto";
-import { Film } from "../types/types";
+import { FilmCard } from "../types/types";
 import { db } from "./config";
 
 interface FirebaseUser {
   email: string;
   profile_picture?: string;
   username?: string;
-  films?: Record<string, Film>;
+  films?: Record<string, FilmCard>;
 }
 
 export function writeUserData(
@@ -59,24 +50,32 @@ const generateMatches = (data: Record<string, FirebaseUser>) => {
   if (!myEmail) {
     return new Map();
   }
-  const myFilms = Object.values(data).reduce((acc, user) => {
-    if (user.email === myEmail) {
-      return user.films ? [...Object.values(user.films)] : [];
-    }
+  const myFilms = Object.values(data).reduce(
+    (acc: FilmCard[], user: FirebaseUser) => {
+      console.log(acc, user);
 
-    return acc;
-  }, []);
+      if (user.email === myEmail) {
+        return user.films ? [...Object.values(user.films)] : [];
+      }
+
+      return acc;
+    },
+    []
+  );
   if (!myFilms) {
     return new Map();
   }
-  const matches: Record<string, unknown> = {};
-  Object.values(data).forEach((user) => {
+  const matches: Record<string, FilmCard[]> = {};
+  Object.values(data).forEach((user: FirebaseUser) => {
     if (user.email === myEmail) {
       return;
     }
-    Object.values(user.films).forEach((film) => {
+    if (!user.films) {
+      return;
+    }
+    Object.values(user.films).forEach((film: FilmCard) => {
       const isInMyFilms = !!myFilms.find((myFilm) => myFilm.id === film.id);
-      if (isInMyFilms) {
+      if (isInMyFilms && user.username) {
         const actualData = matches[user.username] || [];
         matches[user.username] = [...actualData, film];
       }
@@ -93,26 +92,26 @@ export const checkFilmsMatches = async () => {
   return generateMatches(users);
 };
 
-export function checkFilmsMatchesV2() {
-  const reference = ref(db, "users/");
-  const result: Map<string, Film[]> = new Map();
+// export function checkFilmsMatchesV2() {
+//   const reference = ref(db, "users/");
+//   const result: Map<string, Film[]> = new Map();
 
-  onValue(reference, (snapshot) => {
-    snapshot.forEach((child) => {
-      const data = child.val();
-      if (!data.films) {
-        return;
-      }
-      Object.values(data.films).map((film: Film) => {
-        if (!result.has(data.email)) {
-          result.set(data.email, []);
-        }
-        result.get(data.email)?.push(film);
-      });
-    });
-  });
-  return generateMatches(result);
-}
+//   onValue(reference, (snapshot) => {
+//     snapshot.forEach((child) => {
+//       const data: FirebaseUser = child.val();
+//       if (!data.films) {
+//         return;
+//       }
+//       Object.values(data.films).map((film: Film) => {
+//         if (!result.has(data.email)) {
+//           result.set(data.email, []);
+//         }
+//         result.get(data.email)?.push(film);
+//       });
+//     });
+//   });
+//   return generateMatches(result);
+// }
 // export function getFilmData(userId: string, filmId: string) {
 //   const reference = ref(db, "users/" + userId + "films");
 

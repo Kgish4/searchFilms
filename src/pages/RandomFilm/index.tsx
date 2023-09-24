@@ -1,5 +1,4 @@
-import { Button, Image, Layout, Rate } from "antd";
-import React, { Fragment } from "react";
+import { Image, Layout } from "antd";
 import { useQuery } from "react-query";
 import { getRandomFilm } from "../../api/FilmsService";
 import { writeFilmData } from "../../firebase/api";

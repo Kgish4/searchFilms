@@ -1,5 +1,5 @@
 import { Rate } from "antd";
-import React, { FC, Fragment } from "react";
+import { FC, Fragment } from "react";
 
 interface IRates {
   rating: Record<string, number>;

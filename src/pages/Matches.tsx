@@ -1,8 +1,9 @@
-import React, { Fragment } from "react";
+import { Fragment } from "react";
 import { checkFilmsMatches } from "../firebase/api";
 import { useQuery } from "react-query";
 import List from "../components/List/List";
 import Spinner from "../components/Spinner/Spinner";
+import { FilmCard } from "../types/types";
 
 // const combineMatches = (myFilms: Card, mathesWithOther: Map<string, string[]>) => {
 //     const result = {}
@@ -25,16 +26,17 @@ const Matches = () => {
   }
   return (
     <>
-      {Object.entries(data)?.map((value) => {
-        const name = value[0];
-        const films = value[1];
-        return (
-          <Fragment key={name}>
-            <p>With {name}:</p>
-            <List cards={films}></List>
-          </Fragment>
-        );
-      })}
+      {data &&
+        Object.entries(data)?.map((value: [string, FilmCard[]]) => {
+          const name = value[0];
+          const films = value[1];
+          return (
+            <Fragment key={name}>
+              <p>With {name}:</p>
+              <List cards={films}></List>
+            </Fragment>
+          );
+        })}
     </>
   );
 };

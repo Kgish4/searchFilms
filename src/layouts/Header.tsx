@@ -1,5 +1,5 @@
 import { Layout, Menu } from "antd";
-import React, { FC, useCallback, useContext } from "react";
+import { FC, useCallback, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { signOutWithGoogle } from "../firebase/config";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -18,7 +18,7 @@ const menuItems = [
     name: "Matches",
     to: "/matches",
   },
-  { name: "Logout", handler: signOutWithGoogle },
+  { name: "Logout", to: "", handler: signOutWithGoogle },
 ];
 
 // type testType = { name: string; children?: FC; onClick?: () => void };
@@ -39,7 +39,19 @@ const Header: FC = () => {
   const [user] = useAuthState(auth);
 
   const generateMenu = useCallback(
-    ({ name, handler, to }) => ({
+    ({
+      name,
+      handler,
+      to,
+    }: {
+      name: string;
+      to: string;
+      handler?: () => void;
+    }): {
+      key: string;
+      label: string;
+      onClick: () => void;
+    } => ({
       key: name,
       label: name,
       onClick: handler ? handler : () => handleMenuItemClick(to),

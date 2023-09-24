@@ -1,14 +1,13 @@
 import { CloseCircleOutlined } from "@ant-design/icons";
 import { Card, Row } from "antd";
 import Meta from "antd/es/card/Meta";
-import React, { FC, Fragment } from "react";
+import { FC, Fragment } from "react";
 import { FilmCard } from "../../types/types";
 
 interface IList {
   cards: FilmCard[];
   closeCard?: (id: string) => void;
 }
-
 const List: FC<IList> = ({ cards, closeCard }) => {
   return (
     <Row

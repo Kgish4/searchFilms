@@ -3,7 +3,7 @@ import { getFilmsData, removeFilmData } from "../firebase/api";
 import Spinner from "../components/Spinner/Spinner";
 import List from "../components/List/List";
 import { FilmCard } from "../types/types";
-import { useCallback, useMemo } from "react";
+import { useMemo } from "react";
 
 const selectData = (data: Record<string, FilmCard>): FilmCard[] => {
   if (!data) {

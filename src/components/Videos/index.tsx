@@ -1,5 +1,5 @@
-import React, { FC, Fragment } from "react";
-import FilmDto, { Video } from "../../dto/filmdto";
+import { FC, Fragment } from "react";
+import { Video } from "../../dto/filmdto";
 
 type IVideos = { teasers: Video[]; trailers: Video[] };
 

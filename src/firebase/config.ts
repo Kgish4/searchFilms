@@ -6,8 +6,6 @@ import {
   signOut,
 } from "firebase/auth";
 import { getDatabase } from "firebase/database";
-import FilmDto from "../dto/filmdto";
-import { Film } from "../types/types";
 import { writeUserData } from "./api";
 
 const firebaseConfig = {
@@ -30,9 +28,9 @@ export const auth = getAuth(app);
 export const signInWithGoogle = () => {
   signInWithPopup(auth, provider)
     .then((result) => {
-      const name = result.user.displayName;
-      const email = result.user.email;
-      const avatar = result.user.photoURL;
+      const name = result.user.displayName as string;
+      const email = result.user.email as string;
+      const avatar = result.user.photoURL as string;
       const uid = result.user.uid;
 
       localStorage.setItem("name", name as string);

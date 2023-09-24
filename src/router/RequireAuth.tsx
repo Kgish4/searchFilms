@@ -1,4 +1,4 @@
-import React, { FC, PropsWithChildren, useContext } from "react";
+import { FC, PropsWithChildren, useContext } from "react";
 import { Context } from "../main";
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";

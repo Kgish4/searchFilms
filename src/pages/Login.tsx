@@ -1,8 +1,6 @@
 import { Button, Layout } from "antd";
 import { signInWithGoogle } from "../firebase/config";
 
-import React from "react";
-
 const Login = () => {
   const singIn = () => {
     signInWithGoogle();
